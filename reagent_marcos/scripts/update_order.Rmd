@@ -1,0 +1,82 @@
+---
+title: "Reagents"
+output: html_document
+---
+
+<!-- Load libraries --> 
+```{r, message=FALSE, warning=FALSE,  echo=FALSE}
+library(dplyr)
+library(knitr)
+```
+<!-- Clean --> 
+```{r, echo=FALSE}
+rm(list=ls())
+```
+<!-- Set the working directory -->
+```{r,  echo=FALSE}
+#opts_knit$set(root.dir=normalizePath('../'))
+#opts_chunk$set(fig.path = "../results/", dev='pdf')
+setwd("/Volumes/Promise_Pegasus/marcos_dropbox/Dropbox/Lab/Marcos_files/Organization/reagents_marcos")
+```
+
+<!-- Define column names -->
+```{r}
+names <- c("date", "who", "company", "catalog", "description", "price", "ordered")
+```
+<!-- Load old reagents -->
+<!-- Load 2011 reagents -->
+```{r, echo=FALSE}
+reagents2011  <- read.csv("data/orderingsheetEMBL2011.csv" , sep = ";", header = TRUE, stringsAsFactors=FALSE)
+reagents2012  <- read.csv("data/orderingsheetEMBL2012.csv" , sep = ";", header = TRUE, stringsAsFactors=FALSE)
+reagents2013  <- read.csv("data/orderingsheetEMBL2013.csv" , sep = ";", header = TRUE, stringsAsFactors=FALSE)
+reagents2014  <- read.csv("data/orderingsheetEMBL2014.csv" , sep = ";", header = TRUE, stringsAsFactors=FALSE)
+reagents2015  <- read.csv("data/orderingsheetEMBL2015.csv" , sep = ";", header = TRUE, stringsAsFactors=FALSE)
+reagents2016  <- read.csv("data/orderingsheetEMBL2016.csv" , sep = ";", header = TRUE, stringsAsFactors=FALSE)
+reagents_scrm <- read.csv("data/orderingsheetSCRM.csv"     , sep = ";", header = TRUE, stringsAsFactors=FALSE)
+```
+
+```{r}
+reagents2011   <- reagents2011  %>% select(by.whom, Company, Cat.N., Product.description, Price, Ord.plac)
+reagents2012   <- reagents2012  %>% select(by.whom, Company, Cat.N., Product.description, Price, Ord.plac)
+reagents2013   <- reagents2013  %>% select(by.whom, Company, Cat.N., Product.description, Price, Ord.plac)
+reagents2014   <- reagents2014  %>% select(by.whom, Company, Cat.N., Product.description, Price, Order.placed)
+reagents2015   <- reagents2015  %>% select(by.whom, Company, Cat.N., Product.description, Price.per.unit, Order.placed)
+reagents2016   <- reagents2016  %>% select(by.whom, Company, Cat.N., Product.description, Price.per.unit, Order.placed)
+reagents_scrm  <- reagents_scrm %>% select(Order.date, Who, Company, Cat.N., Product.description, Price.per.unit, Order.placed)
+```
+
+```{r}
+reagents2011  <- data.frame(date = rep("2011", nrow(reagents2011)), reagents2011)
+reagents2012  <- data.frame(date = rep("2012", nrow(reagents2012)), reagents2012)
+reagents2013  <- data.frame(date = rep("2013", nrow(reagents2013)), reagents2013)
+reagents2014  <- data.frame(date = rep("2014", nrow(reagents2014)), reagents2014)
+reagents2015  <- data.frame(date = rep("2015", nrow(reagents2015)), reagents2015)
+reagents2016  <- data.frame(date = rep("2016", nrow(reagents2016)), reagents2016)
+reagents_scrm <- data.frame(date = reagents_scrm$Order.date,        reagents_scrm[,-1])
+#reagents_scrm <- data.frame(date = rep("scrm", nrow(reagents_scrm)),        reagents_scrm[,-1])
+```
+
+```{r}
+colnames(reagents2011)   <- names
+colnames(reagents2012)   <- names
+colnames(reagents2013)   <- names
+colnames(reagents2014)   <- names
+colnames(reagents2015)   <- names
+colnames(reagents2016)   <- names
+colnames(reagents_scrm)  <- names
+reagents <- bind_rows(reagents2011, reagents2012, reagents2013, reagents2014, reagents2015, reagents2016, reagents_scrm)
+rm(reagents2011, reagents2012, reagents2013, reagents2014, reagents2015, reagents2016, reagents_scrm, names)
+```
+
+```{r}
+write.csv(reagents, "views/orders.csv")
+```
+
+```{r}
+unique <- reagents %>% select(description) %>% unique() %>% arrange(description)
+```
+
+```{r}
+
+```
+

@@ -1,0 +1,44 @@
+---
+title: "Reagents Storage"
+output: html_document
+---
+
+<!-- Load libraries --> 
+```{r, message=FALSE, warning=FALSE,  echo=FALSE}
+library(dplyr)
+library(knitr)
+```
+<!-- Clean --> 
+```{r, echo=FALSE}
+rm(list=ls())
+```
+
+```{r}
+updates <- 3
+```
+
+<!-- Set the working directory -->
+```{r,  echo=FALSE}
+setwd("/Volumes/Promise_Pegasus/marcos_dropbox/Dropbox/Lab/Marcos_files/Organization/reagents_marcos")
+```
+
+<!-- update reagents -->
+```{r, echo=FALSE}
+update_storage  <- read.csv("data/storage/update_reagents_1.csv" , sep = ";", header = TRUE, stringsAsFactors=FALSE)
+for(i in 2:updates){
+  new_storage     <- read.csv(paste("data/storage/update_reagents_", i, ".csv", sep=""), sep = ";", header = TRUE, stringsAsFactors=FALSE)
+  update_storage  <- bind_rows(update_storage, new_storage)
+}
+update_storage    <- subset(update_storage, date != "") %>% unique()
+
+```
+
+```{r}
+write.csv(update_storage, "views/storage.csv")
+```
+
+```{r}
+
+```
+
+
