@@ -13,23 +13,19 @@ library(knitr)
 rm(list=ls())
 ```
 
-```{r}
-updates <- 2
-```
-
 <!-- Set the working directory -->
 ```{r,  echo=FALSE}
 setwd("/Volumes/Promise_Pegasus/marcos_dropbox/Dropbox/Lab/Marcos_files/Organization/storage/samples_marcos")
 ```
 
 <!-- update reagents -->
-```{r, echo=FALSE}
-update_storage  <- read.csv2("data/update_samples_1.csv" , sep = ";", header = TRUE, stringsAsFactors=FALSE)
-for(i in 2:updates){
-  new_storage     <- read.csv2(paste("data/update_samples_", i, ".csv", sep=""), sep = ",", header = TRUE, stringsAsFactors=FALSE)
-  #update_storage  <- bind_rows(update_storage, new_storage)
+```{r}
+datalist <- list()
+filenames <- list.files("data/update/", pattern="*.csv", full.names=TRUE)
+for (filename in filenames){
+  datalist[[filename]] <- read.csv2(filename , sep = ";", header = TRUE, stringsAsFactors=FALSE)
 }
-update_storage    <- subset(update_storage, date != "")
+update_storage <- unique(bind_rows(datalist))
 ```
 
 ```{r}
