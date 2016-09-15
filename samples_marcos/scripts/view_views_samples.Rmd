@@ -16,12 +16,12 @@ rm(list=ls())
 ```
 <!-- Set the working directory -->
 ```{r,  echo=FALSE}
-setwd("/Volumes/Promise_Pegasus/marcos_dropbox/Dropbox/Lab/Marcos_files/Organization/reagents_marcos")
+setwd("/Volumes/Promise_Pegasus/marcos_dropbox/Dropbox/Lab/Marcos_files/Organization/storage/samples_marcos/scripts")
 ```
 <!-- Set the working directory -->
 ```{r,  echo=FALSE}
-orders   <- read.csv2("views/orders.csv", sep=",")
-storage  <- read.csv2("views/storage.csv", sep=",")
+orders   <- read.csv2("../views/orders.csv", sep=",")
+storage  <- read.csv2("../views/storage.csv", sep=",")
 ```
 
 ```{r}
