@@ -19,21 +19,21 @@ updates <- 2
 
 <!-- Set the working directory -->
 ```{r,  echo=FALSE}
-setwd("/Volumes/Promise_Pegasus/marcos_dropbox/Dropbox/Lab/Marcos_files/Organization/samples_marcos")
+setwd("/Volumes/Promise_Pegasus/marcos_dropbox/Dropbox/Lab/Marcos_files/Organization/storage/samples_marcos")
 ```
 
 <!-- update reagents -->
 ```{r, echo=FALSE}
-update_storage  <- read.csv("data/update_samples_1.csv" , sep = ";", header = TRUE, stringsAsFactors=FALSE)
+update_storage  <- read.csv2("data/update_samples_1.csv" , sep = ";", header = TRUE, stringsAsFactors=FALSE)
 for(i in 2:updates){
-  new_storage     <- read.csv(paste("data/update_samples_", i, ".csv", sep=""), sep = ",", header = TRUE, stringsAsFactors=FALSE)
+  new_storage     <- read.csv2(paste("data/update_samples_", i, ".csv", sep=""), sep = ",", header = TRUE, stringsAsFactors=FALSE)
   #update_storage  <- bind_rows(update_storage, new_storage)
 }
 update_storage    <- subset(update_storage, date != "")
 ```
 
 ```{r}
-write.csv(update_storage, "views/storage.csv")
+write.csv2(update_storage, "views/storage.csv")
 ```
 
 ```{r}
