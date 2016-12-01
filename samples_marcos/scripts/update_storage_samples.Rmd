@@ -20,15 +20,53 @@ setwd("/Volumes/Promise_Pegasus/marcos_dropbox/Dropbox/Lab/Marcos_files/Organiza
 
 <!-- update reagents -->
 ```{r}
-datalist <- list()
 filenames <- list.files("data/update/", pattern="*.csv", full.names=TRUE)
+first_case <- TRUE
 for (filename in filenames){
-  datalist[[filename]] <- read.csv2(filename , sep = ";", header = TRUE, stringsAsFactors=FALSE)
+  if (first_case){
+    update_storage <- read.csv2(filename , sep = ";", header = TRUE, stringsAsFactors=FALSE)
+    
+    update_storage$sample       <- as.character(update_storage$sample)
+    update_storage$type         <- as.character(update_storage$type)
+    update_storage$temperature  <- as.integer(update_storage$temperature)
+    update_storage$place        <- as.character(update_storage$place)
+    update_storage$place_row    <- as.integer(update_storage$place_row)
+    update_storage$place_column <- as.integer(update_storage$place_column)
+    update_storage$place_depth  <- as.integer(update_storage$place_depth)
+    update_storage$box          <- as.character(update_storage$box)
+    update_storage$box_row      <- as.integer(update_storage$box_row)
+    update_storage$box_column   <- as.integer(update_storage$box_column)
+    update_storage$date         <- as.Date(update_storage$date)
+    update_storage$percent_left <- as.integer(update_storage$percent_left)
+      
+    show(update_storage)
+    first_case <- FALSE
+  }
+  else {
+    update_storage_new <- read.csv2(filename , sep = ";", header = TRUE, stringsAsFactors=FALSE)
+    
+    update_storage_new$sample       <- as.character(update_storage_new$sample)
+    update_storage_new$type         <- as.character(update_storage_new$type)
+    update_storage_new$temperature  <- as.integer(update_storage_new$temperature)
+    update_storage_new$place        <- as.character(update_storage_new$place)
+    update_storage_new$place_row    <- as.integer(update_storage_new$place_row)
+    update_storage_new$place_column <- as.integer(update_storage_new$place_column)
+    update_storage_new$place_depth  <- as.integer(update_storage_new$place_depth)
+    update_storage_new$box          <- as.character(update_storage_new$box)
+    update_storage_new$box_row      <- as.integer(update_storage_new$box_row)
+    update_storage_new$box_column   <- as.integer(update_storage_new$box_column)
+    update_storage_new$date         <- as.Date(update_storage_new$date)
+    update_storage_new$percent_left <- as.integer(update_storage_new$percent_left)
+    
+    
+    show(update_storage_new)
+    update_storage <- unique(bind_rows(update_storage, update_storage_new))
+  }
 }
-update_storage <- unique(bind_rows(datalist))
 ```
 
 ```{r}
+update_storage <- update_storage %>% arrange(sample)
 write.csv2(update_storage, "views/storage.csv")
 ```
 
