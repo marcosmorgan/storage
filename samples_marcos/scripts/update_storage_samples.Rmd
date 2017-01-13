@@ -22,6 +22,7 @@ setwd("/Volumes/Promise_Pegasus/marcos_dropbox/Dropbox/Lab/Marcos_files/Organiza
 ```{r}
 filenames <- list.files("data/update/", pattern="*.csv", full.names=TRUE)
 first_case <- TRUE
+
 for (filename in filenames){
   if (first_case){
     update_storage <- read.csv2(filename , sep = ";", header = TRUE, stringsAsFactors=FALSE)
